@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1739944341834547000}
   - component: {fileID: 1739944341834547005}
   - component: {fileID: 1739944341834547002}
-  - component: {fileID: 1739944341834547003}
   m_Layer: 8
   m_Name: Front
   m_TagString: Untagged
@@ -80,19 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1739944341834547003
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739944341834547001}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.1, z: 1.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1739944342214569073
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +90,9 @@ GameObject:
   - component: {fileID: 1739944342214569072}
   - component: {fileID: 1739944342214569077}
   - component: {fileID: 1739944342214569074}
-  m_Layer: 0
+  - component: {fileID: 4191364788259538058}
+  - component: {fileID: 2714446891644323424}
+  m_Layer: 8
   m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,6 +166,32 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &4191364788259538058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739944342214569073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78db7b16220ee34d86fb5fd55f162e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  positionInCubeID: {x: 0, y: 0, z: 0}
+--- !u!65 &2714446891644323424
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739944342214569073}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1739944342585630591
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +203,6 @@ GameObject:
   - component: {fileID: 1739944342585630590}
   - component: {fileID: 1739944342585630563}
   - component: {fileID: 1739944342585630560}
-  - component: {fileID: 1739944342585630561}
   m_Layer: 8
   m_Name: Down
   m_TagString: Untagged
@@ -258,19 +271,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1739944342585630561
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739944342585630591}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.1, z: 1.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1739944342907209850
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +282,6 @@ GameObject:
   - component: {fileID: 1739944342907209853}
   - component: {fileID: 1739944342907209854}
   - component: {fileID: 1739944342907209855}
-  - component: {fileID: 1739944342907209852}
   m_Layer: 8
   m_Name: Back
   m_TagString: Untagged
@@ -351,19 +350,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1739944342907209852
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739944342907209850}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.1, z: 1.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1739944342969974545
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +361,6 @@ GameObject:
   - component: {fileID: 1739944342969974544}
   - component: {fileID: 1739944342969974549}
   - component: {fileID: 1739944342969974546}
-  - component: {fileID: 1739944342969974547}
   m_Layer: 8
   m_Name: Left
   m_TagString: Untagged
@@ -444,19 +429,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1739944342969974547
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739944342969974545}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.1, z: 1.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1739944343119329135
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +440,6 @@ GameObject:
   - component: {fileID: 1739944343119329134}
   - component: {fileID: 1739944343119329107}
   - component: {fileID: 1739944343119329104}
-  - component: {fileID: 1739944343119329105}
   m_Layer: 8
   m_Name: Up
   m_TagString: Untagged
@@ -537,19 +508,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1739944343119329105
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739944343119329135}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.1, z: 1.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1739944343495111693
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +519,6 @@ GameObject:
   - component: {fileID: 1739944343495111692}
   - component: {fileID: 1739944343495111793}
   - component: {fileID: 1739944343495111694}
-  - component: {fileID: 1739944343495111695}
   m_Layer: 8
   m_Name: Right
   m_TagString: Untagged
@@ -630,16 +587,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &1739944343495111695
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739944343495111693}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.1, z: 1.1}
-  m_Center: {x: 0, y: 0, z: 0}

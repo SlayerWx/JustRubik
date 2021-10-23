@@ -23,6 +23,7 @@ public class InputPlayer : MonoBehaviour
     bool canInput = true;
     bool fixedRotation = false;
     bool fixing = false;
+    Vector3 hitAux;
     private void Start()
     {
         rayGetBlock = false;
@@ -68,9 +69,8 @@ public class InputPlayer : MonoBehaviour
 
 
                         }
-
+                        hitAux= hit.point;
                         selectedDirection = false;
-                        //Debug.Log(ray.direction);
                     }
                     break;
                 case TouchPhase.Moved:
@@ -108,7 +108,14 @@ public class InputPlayer : MonoBehaviour
                             }
                             if (direction == Vector3.forward && axisSelected == BlockPositions.RotationType.updown)
                             {
-                                rotation.x += touchDirection.y * sensitivity;
+                                if (hitAux.z < 0.0f)
+                                {
+                                    rotation.x += touchDirection.y * sensitivity;
+                                }else
+                                {
+                                    rotation.x -= touchDirection.y * sensitivity;
+                                }
+                              
                             }
                             if (direction == Vector3.forward && axisSelected == BlockPositions.RotationType.rotleftright)
                             {
@@ -123,7 +130,14 @@ public class InputPlayer : MonoBehaviour
                             }
                             if (direction == Vector3.right && axisSelected == BlockPositions.RotationType.updown)
                             {
-                                rotation.z += touchDirection.y * sensitivity;
+                                if (hitAux.x < 0.0f)
+                                {
+                                    rotation.z -= touchDirection.y * sensitivity;
+                                }
+                                else
+                                {
+                                    rotation.z += touchDirection.y * sensitivity;
+                                }
                             }
                             if (direction == Vector3.right && axisSelected == BlockPositions.RotationType.rotleftright)
                             {
@@ -134,7 +148,17 @@ public class InputPlayer : MonoBehaviour
                             #region AxisUp
                             if (direction == Vector3.up && axisSelected == BlockPositions.RotationType.leftright)
                             {
-                                rotation.z -= touchDirection.x * sensitivity;
+                                if (hitAux.y < 0.0f)
+                                {
+                                    rotation.z += touchDirection.x * sensitivity;
+                                    Debug.Log("+");
+                                }
+                                else
+                                {
+                                    rotation.z -= touchDirection.x * sensitivity;
+                                    Debug.Log("-");
+                                }
+
                             }
                             if (direction == Vector3.up && axisSelected == BlockPositions.RotationType.updown)
                             {
@@ -160,6 +184,7 @@ public class InputPlayer : MonoBehaviour
                     selectedDirection = false;
                     canInput = false;
                     fixedRotation = true;
+                    hitAux = Vector3.zero;
                     break;
             }
         }

@@ -7,6 +7,7 @@ public class BlockPositions : MonoBehaviour
     public static Action<PieceInfo> OnSetBlockPosition;
     public static PieceInfo[,,] pieces = new PieceInfo[3,3,3];
     public static Transform rubikPivot;
+    private static bool researched;
     public enum RotationType
     {
         leftright,updown,rotleftright
@@ -15,6 +16,7 @@ public class BlockPositions : MonoBehaviour
     {
         OnSetBlockPosition += CollectPieceInfo;
         rubikPivot = transform;
+        researched = false;
     }
     private void OnDisable()
     {
@@ -26,67 +28,71 @@ public class BlockPositions : MonoBehaviour
     }
     public static void SetInPivot(PieceInfo firstPiece, Transform pivot, RotationType type,Vector3 facetype)
     {
-        foreach (PieceInfo piece in pieces)
+        if (!researched)
         {
-            if (piece)
+            foreach (PieceInfo piece in pieces)
             {
-                switch(type)
+                if (piece)
                 {
-                    case RotationType.leftright:
-                        switch(facetype)
-                        {
-                            case Vector3 _ when Vector3.forward == facetype:
-                                if (piece.transform.localPosition.y == firstPiece.transform.localPosition.y)
-                                {
-                                    piece.transform.parent = pivot;
-                                }
-                                break;
-                            case Vector3 _ when Vector3.right == facetype:
-                                if (piece.transform.localPosition.y == firstPiece.transform.localPosition.y)
-                                {
-                                    piece.transform.parent = pivot;
-                                }
-                                break;
-                            case Vector3 _ when Vector3.up == facetype:
-                                if (piece.transform.localPosition.z == firstPiece.transform.localPosition.z)
-                                {
-                                    piece.transform.parent = pivot;
-                                }
-                                break;
-                        }
-                        break;
-                    case RotationType.updown:
-                        switch (facetype)
-                        {
-                            case Vector3 _ when Vector3.forward == facetype:
-                                if (piece.transform.localPosition.x == firstPiece.transform.localPosition.x)
-                                {
-                                    piece.transform.parent = pivot;
-                                }
-                                break;
-                            case Vector3 _ when Vector3.right == facetype:
-                                if (piece.transform.localPosition.z == firstPiece.transform.localPosition.z)
-                                {
-                                    piece.transform.parent = pivot;
-                                }
-                                break;
-                            case Vector3 _ when Vector3.up == facetype:
-                                if (piece.transform.localPosition.x == firstPiece.transform.localPosition.x)
-                                {
-                                    piece.transform.parent = pivot;
-                                }
-                                break;
-                        }
-                        break;
-                    case RotationType.rotleftright:
-                        if (piece.transform.localPosition.z == firstPiece.transform.localPosition.z)
-                        {
-                            piece.transform.parent = pivot;
-                        }
-                        break;
+                    switch (type)
+                    {
+                        case RotationType.leftright:
+                            switch (facetype)
+                            {
+                                case Vector3 _ when Vector3.forward == facetype:
+                                    if (piece.transform.localPosition.y == firstPiece.transform.localPosition.y)
+                                    {
+                                        piece.transform.parent = pivot;
+                                    }
+                                    break;
+                                case Vector3 _ when Vector3.right == facetype:
+                                    if (piece.transform.localPosition.y == firstPiece.transform.localPosition.y)
+                                    {
+                                        piece.transform.parent = pivot;
+                                    }
+                                    break;
+                                case Vector3 _ when Vector3.up == facetype:
+                                    if (piece.transform.localPosition.z == firstPiece.transform.localPosition.z)
+                                    {
+                                        piece.transform.parent = pivot;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case RotationType.updown:
+                            switch (facetype)
+                            {
+                                case Vector3 _ when Vector3.forward == facetype:
+                                    if (piece.transform.localPosition.x == firstPiece.transform.localPosition.x)
+                                    {
+                                        piece.transform.parent = pivot;
+                                    }
+                                    break;
+                                case Vector3 _ when Vector3.right == facetype:
+                                    if (piece.transform.localPosition.z == firstPiece.transform.localPosition.z)
+                                    {
+                                        piece.transform.parent = pivot;
+                                    }
+                                    break;
+                                case Vector3 _ when Vector3.up == facetype:
+                                    if (piece.transform.localPosition.x == firstPiece.transform.localPosition.x)
+                                    {
+                                        piece.transform.parent = pivot;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case RotationType.rotleftright:
+                            if (piece.transform.localPosition.z == firstPiece.transform.localPosition.z)
+                            {
+                                piece.transform.parent = pivot;
+                            }
+                            break;
+                    }
                 }
             }
         }
+        researched = true;
     }
     public static void ReturnToRubik()
     {
@@ -98,6 +104,7 @@ public class BlockPositions : MonoBehaviour
                 piece.transform.position = PiecePositionCorrection(piece.transform.position);
             }
         }
+        researched = false;
     }
     static Vector3 PiecePositionCorrection(Vector3 pos)
     {

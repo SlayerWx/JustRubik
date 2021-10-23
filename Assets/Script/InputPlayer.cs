@@ -108,7 +108,7 @@ public class InputPlayer : MonoBehaviour
                             }
                             if (direction == Vector3.forward && axisSelected == BlockPositions.RotationType.updown)
                             {
-                                if (hitAux.z < 0.0f)
+                                if (hitAux.z <= 0.0f)
                                 {
                                     rotation.x += touchDirection.y * sensitivity;
                                 }else

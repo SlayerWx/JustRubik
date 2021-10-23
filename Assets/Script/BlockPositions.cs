@@ -4,10 +4,11 @@ using UnityEngine;
 using System;
 public class BlockPositions : MonoBehaviour
 {
-    public static Action<PieceInfo> OnSetBlockPosition;
-    public static PieceInfo[,,] pieces = new PieceInfo[3,3,3];
+    public static Action<Node> OnSetBlockPosition;
+    public static Node[,,] nodes = new Node[3,3,3];
     public static Transform rubikPivot;
-    private static bool researched;
+    public GameObject node;
+    public static bool researched;
     public enum RotationType
     {
         leftright,updown,rotleftright
@@ -22,15 +23,66 @@ public class BlockPositions : MonoBehaviour
     {
         OnSetBlockPosition -= CollectPieceInfo;
     }
-    void CollectPieceInfo(PieceInfo info)
+    void CollectPieceInfo(Node info)
     {
-        pieces[(int)info.positionInCubeID.x,(int)info.positionInCubeID.y,(int)info.positionInCubeID.z] = info;
+        nodes[(int)info.ID.x,(int)info.ID.y,(int)info.ID.z] = info;
     }
     public static void SetInPivot(PieceInfo firstPiece, Transform pivot, RotationType type,Vector3 facetype)
     {
         if (!researched)
         {
-            foreach (PieceInfo piece in pieces)
+            foreach (Node n in nodes)
+            {
+                if (type == RotationType.leftright)
+                {
+                    if (facetype != Vector3.up)
+                    {
+                        if (n)
+                        {
+                            if (n.ID.y == firstPiece.positionInCubeID.y)
+                            {
+                                n.piece.transform.parent = pivot;
+                            }
+                        }
+                    }
+                    if (facetype == Vector3.up)
+                    {
+                        if (n)
+                        {
+                            if (n.ID.z == firstPiece.positionInCubeID.z)
+                            {
+                                n.piece.transform.parent = pivot;
+                            }
+                        }
+                    }
+                }
+                if (type == RotationType.updown)
+                {
+                    if (facetype != Vector3.right)
+                    {
+                        if (n)
+                        {
+                            if (n.ID.x == firstPiece.positionInCubeID.x)
+                            {
+                                n.piece.transform.parent = pivot;
+                            }
+                        }
+                    }
+                    if (facetype == Vector3.right)
+                    {
+                        if (n)
+                        {
+                            if (n.ID.z == firstPiece.positionInCubeID.z)
+                            {
+                                n.piece.transform.parent = pivot;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            /*foreach (PieceInfo piece in nodes)
             {
                 if (piece)
                 {
@@ -90,18 +142,22 @@ public class BlockPositions : MonoBehaviour
                             break;
                     }
                 }
-            }
+            }*/
         }
         researched = true;
     }
     public static void ReturnToRubik()
     {
-        foreach (PieceInfo piece in pieces)
+        foreach (Node n in nodes)
         {
-            if (piece)
+            if (n)
             {
-                piece.transform.parent = rubikPivot;
-                piece.transform.position = PiecePositionCorrection(piece.transform.position);
+                if (n.piece.transform.parent != rubikPivot)
+                {
+                    n.piece.transform.parent = rubikPivot;
+                    n.extractPiece();
+                }
+                n.piece.transform.position = PiecePositionCorrection(n.piece.transform.position);
             }
         }
         researched = false;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1051128611686383021}
   - component: {fileID: 1051128611686383020}
   - component: {fileID: 3512154691701236332}
-  - component: {fileID: 6103366384097052793}
+  - component: {fileID: 3900322838880072264}
   m_Layer: 8
   m_Name: node
   m_TagString: Untagged
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: {x: 0, y: 0, z: 0}
   piece: {fileID: 0}
---- !u!54 &6103366384097052793
+--- !u!54 &3900322838880072264
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

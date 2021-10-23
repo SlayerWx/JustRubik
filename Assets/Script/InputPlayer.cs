@@ -151,12 +151,10 @@ public class InputPlayer : MonoBehaviour
                                 if (hitAux.y < 0.0f)
                                 {
                                     rotation.z += touchDirection.x * sensitivity;
-                                    Debug.Log("+");
                                 }
                                 else
                                 {
                                     rotation.z -= touchDirection.x * sensitivity;
-                                    Debug.Log("-");
                                 }
 
                             }

@@ -24,6 +24,7 @@ public class InputPlayer : MonoBehaviour
     bool fixedRotation = false;
     bool fixing = false;
     Vector3 hitAux;
+    string midPiece = "MidPiece";
     private void Start()
     {
         rayGetBlock = false;
@@ -70,6 +71,7 @@ public class InputPlayer : MonoBehaviour
 
                         }
                         hitAux= hit.point;
+                        if(hit.transform.tag == midPiece) HitCorrection(hit);
                         selectedDirection = false;
                     }
                     break;
@@ -215,5 +217,39 @@ public class InputPlayer : MonoBehaviour
         pivot.rotation = Quaternion.identity;
         canInput = true;
         fixing = false;
+    }
+
+    void HitCorrection(RaycastHit hit)
+    {
+        // Just in case, also make sure the collider also has a renderer
+        // material and texture
+        MeshCollider meshCollider = hit.collider as MeshCollider;
+        if (meshCollider == null || meshCollider.sharedMesh == null)
+        {
+            return;
+        }
+        Debug.Log("A");
+        Mesh mesh = meshCollider.sharedMesh;
+        Vector3[] normals = mesh.normals;
+        int[] triangles = mesh.triangles;
+        // Extract local space normals of the triangle we hit
+        Vector3 n0 = normals[triangles[hit.triangleIndex * 3 + 0]];
+        Vector3 n1 = normals[triangles[hit.triangleIndex * 3 + 1]];
+        Vector3 n2 = normals[triangles[hit.triangleIndex * 3 + 2]];
+
+        // interpolate using the barycentric coordinate of the hitpoint
+        Vector3 baryCenter = hit.barycentricCoordinate;
+
+        // Use barycentric coordinate to interpolate normal
+        Vector3 interpolatedNormal = n0 * baryCenter.x + n1 * baryCenter.y + n2 * baryCenter.z;
+        // normalize the interpolated normal
+        interpolatedNormal = interpolatedNormal.normalized;
+
+        // Transform local space normals to world space
+        Transform hitTransform = hit.collider.transform;
+        interpolatedNormal = hitTransform.TransformDirection(interpolatedNormal);
+
+        // Display with Debug.DrawLine
+        Debug.DrawRay(hit.point, interpolatedNormal);
     }
 }

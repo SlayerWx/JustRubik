@@ -26,6 +26,7 @@ public class InputPlayer : MonoBehaviour
     bool fixing = false;
     Vector3 hitAux;
     string midPiece = "MidPiece";
+    public static Action OnCubeEndAutorotate;
     private void Start()
     {
         rayGetBlock = false;
@@ -214,11 +215,11 @@ public class InputPlayer : MonoBehaviour
             }
             yield return null;
         }
-        Debug.Log("ReturnToRubik");
         BlockPositions.ReturnToRubik();
         pivot.rotation = Quaternion.identity;
         canInput = true;
         fixing = false;
+        OnCubeEndAutorotate?.Invoke();
     }
 
     void HitCorrection(RaycastHit hit)

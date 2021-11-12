@@ -24,21 +24,23 @@ public class ReadCube : MonoBehaviour
 
 
     public static Action<GameObject,Transform> OnReadCubeWithRaycast;
+    private void OnEnable()
+    {
+        InputPlayer.OnCubeEndAutorotate += ReadFaceAll;
+    }
+    private void OnDisable()
+    {
+        InputPlayer.OnCubeEndAutorotate -= ReadFaceAll;
 
+    }
     void Start()
     {
         SetRayTransforms();
-
-        ReadFace(uptRays, tUp);
-        ReadFace(downRays, tDown);
-        ReadFace(leftRays, tLeft);
-        ReadFace(rightRays, tRight);
-        ReadFace(frontRays, tFront);
-        ReadFace(backRays, tBack);
+        ReadFaceAll();
 
     }
 
-    private void Update()
+    private void ReadFaceAll()
     {
         ReadFace(uptRays,tUp);
         ReadFace(downRays, tDown);

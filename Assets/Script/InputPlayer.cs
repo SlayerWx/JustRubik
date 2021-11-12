@@ -15,7 +15,7 @@ public class InputPlayer : MonoBehaviour
     bool rayGetBlock = false;
     Vector2 touchDirection;
     Vector3 rotation;
-    PieceInfo refFirstBlock;
+    Transform refFirstBlock;
     public BlockPositions.RotationType axisSelected;
     const float decideAxisBuffer = 4.4f;
     const float sensitivity = 0.4f;
@@ -48,22 +48,22 @@ public class InputPlayer : MonoBehaviour
                     if (Physics.Raycast(ray, out hit, 100.0f, layerMask) && hit.collider.gameObject != null)
                     {
                         rayGetBlock = true;
-                        refFirstBlock = hit.collider.transform.GetComponent<PieceInfo>();
+                        refFirstBlock = hit.collider.transform;
 
 
                         switch (refFirstBlock.transform.position)
                         {
-                            case Vector3 _ when (Mathf.Abs(refFirstBlock.transform.position.x) +
+                            case Vector3 _ when (Mathf.Abs(refFirstBlock.position.x) +
                             Mathf.Abs(hit.collider.transform.lossyScale.x / 2))
                             <= Mathf.Abs(hit.point.x):
                                 direction = Vector3.right;
                                 break;
-                            case Vector3 _ when Mathf.Abs(refFirstBlock.transform.position.y) +
+                            case Vector3 _ when Mathf.Abs(refFirstBlock.position.y) +
                             Mathf.Abs((hit.collider.transform.lossyScale.y / 2))
                             <= Mathf.Abs(hit.point.y):
                                 direction = Vector3.up;
                                 break;
-                            case Vector3 _ when Mathf.Abs(refFirstBlock.transform.position.z) +
+                            case Vector3 _ when Mathf.Abs(refFirstBlock.position.z) +
                             Mathf.Abs((hit.collider.transform.lossyScale.z / 2))
                             <= Mathf.Abs(hit.point.z):
                                 direction = Vector3.forward;

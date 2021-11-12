@@ -26,10 +26,21 @@ public class BlockPositions : MonoBehaviour
     {
         nodes[(int)info.ID.x,(int)info.ID.y,(int)info.ID.z] = info;
     }
-    public static void SetInPivot(PieceInfo firstPiece, Transform pivot, RotationType type,Vector3 facetype)
+    public static void SetInPivot(Transform firstPiece, Transform pivot, RotationType type,Vector3 facetype)
     {
         if (!researched)
         {
+            Vector3 ID = Vector3.zero;
+            foreach (Node n in nodes)
+            {
+                if(n)
+                {
+                    if(n.piece == firstPiece)
+                    {
+                        ID = n.ID;
+                    }
+                }
+            }
             foreach (Node n in nodes)
             {
                 if (type == RotationType.leftright)
@@ -38,7 +49,7 @@ public class BlockPositions : MonoBehaviour
                     {
                         if (n)
                         {
-                            if (n.ID.y == firstPiece.positionInCubeID.y)
+                            if (n.ID.y == ID.y)
                             {
                                 n.piece.parent = pivot;
                             }
@@ -48,7 +59,7 @@ public class BlockPositions : MonoBehaviour
                     {
                         if (n)
                         {
-                            if (n.ID.z == firstPiece.positionInCubeID.z)
+                            if (n.ID.z == ID.z)
                             {
                                 n.piece.parent = pivot;
                             }
@@ -61,7 +72,7 @@ public class BlockPositions : MonoBehaviour
                     {
                         if (n)
                         {
-                            if (n.ID.x == firstPiece.positionInCubeID.x)
+                            if (n.ID.x == ID.x)
                             {
                                 n.piece.parent = pivot;
                             }
@@ -71,7 +82,7 @@ public class BlockPositions : MonoBehaviour
                     {
                         if (n)
                         {
-                            if (n.ID.z == firstPiece.positionInCubeID.z)
+                            if (n.ID.z == ID.z)
                             {
                                 n.piece.parent = pivot;
                             }
@@ -154,8 +165,7 @@ public class BlockPositions : MonoBehaviour
                 if (n.piece.parent != rubikPivot)
                 {
                     n.piece.parent = rubikPivot;
-                    //n.piece.position = new Vector3(n.transform.position.x, n.transform.position.y, n.transform.position.z);
-                    // = PiecePositionCorrection(n.piece.transform.position);
+                    n.piece.position  = PiecePositionCorrection(n.piece.transform.position);
                 }
             }
         }

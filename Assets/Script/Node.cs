@@ -5,24 +5,30 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     public Vector3 ID;
-    public PieceInfo piece;
-    private Transform lastref;
+    public Transform piece;
+    private int layerMask = 1 << 9;
     void Start()
     {
-        piece = transform.parent.GetComponent<PieceInfo>();
-        ID = piece.positionInCubeID;
-        lastref = transform.parent;
-        transform.parent = transform.parent.parent;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 10.0f, layerMask))
+        {
+           ID = hit.collider.transform.parent.GetComponent<PieceInfo>().positionInCubeID;
+        }
         BlockPositions.OnSetBlockPosition?.Invoke(this);
     }
-
-    private void OnTriggerStay(Collider other)
+    private void OnEnable()
     {
-        lastref = other.transform;
+        ReadCube.OnReadCubeWithRaycast += ReadingCube;
     }
-    public void extractPiece()
+    private void OnDisable()
     {
-        piece = lastref.GetComponent<PieceInfo>();
-        piece.positionInCubeID = ID;
+        ReadCube.OnReadCubeWithRaycast -= ReadingCube;
+    }
+    void ReadingCube(GameObject me, Transform newPiece)
+    {
+        if (me == gameObject)
+        {
+            piece = newPiece.parent;
+        }
     }
 }

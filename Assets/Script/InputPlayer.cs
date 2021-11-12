@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 public class InputPlayer : MonoBehaviour
 {
     public Transform pivot;
@@ -213,6 +214,7 @@ public class InputPlayer : MonoBehaviour
             }
             yield return null;
         }
+        Debug.Log("ReturnToRubik");
         BlockPositions.ReturnToRubik();
         pivot.rotation = Quaternion.identity;
         canInput = true;
@@ -228,7 +230,7 @@ public class InputPlayer : MonoBehaviour
         {
             return;
         }
-        Debug.Log("A");
+        //Debug.Log("A");
         Mesh mesh = meshCollider.sharedMesh;
         Vector3[] normals = mesh.normals;
         int[] triangles = mesh.triangles;

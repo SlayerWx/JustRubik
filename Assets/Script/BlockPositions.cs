@@ -7,7 +7,6 @@ public class BlockPositions : MonoBehaviour
     public static Action<Node> OnSetBlockPosition;
     public static Node[,,] nodes = new Node[3,3,3];
     public static Transform rubikPivot;
-    public GameObject node;
     public static bool researched;
     public enum RotationType
     {
@@ -41,7 +40,7 @@ public class BlockPositions : MonoBehaviour
                         {
                             if (n.ID.y == firstPiece.positionInCubeID.y)
                             {
-                                n.piece.transform.parent = pivot;
+                                n.piece.parent = pivot;
                             }
                         }
                     }
@@ -51,7 +50,7 @@ public class BlockPositions : MonoBehaviour
                         {
                             if (n.ID.z == firstPiece.positionInCubeID.z)
                             {
-                                n.piece.transform.parent = pivot;
+                                n.piece.parent = pivot;
                             }
                         }
                     }
@@ -64,7 +63,7 @@ public class BlockPositions : MonoBehaviour
                         {
                             if (n.ID.x == firstPiece.positionInCubeID.x)
                             {
-                                n.piece.transform.parent = pivot;
+                                n.piece.parent = pivot;
                             }
                         }
                     }
@@ -74,7 +73,7 @@ public class BlockPositions : MonoBehaviour
                         {
                             if (n.ID.z == firstPiece.positionInCubeID.z)
                             {
-                                n.piece.transform.parent = pivot;
+                                n.piece.parent = pivot;
                             }
                         }
                     }
@@ -152,12 +151,12 @@ public class BlockPositions : MonoBehaviour
         {
             if (n)
             {
-                if (n.piece.transform.parent != rubikPivot)
+                if (n.piece.parent != rubikPivot)
                 {
-                    n.piece.transform.parent = rubikPivot;
-                    n.extractPiece();
+                    n.piece.parent = rubikPivot;
+                    //n.piece.position = new Vector3(n.transform.position.x, n.transform.position.y, n.transform.position.z);
+                    // = PiecePositionCorrection(n.piece.transform.position);
                 }
-                n.piece.transform.position = PiecePositionCorrection(n.piece.transform.position);
             }
         }
         researched = false;

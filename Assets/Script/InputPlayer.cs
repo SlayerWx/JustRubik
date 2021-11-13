@@ -51,6 +51,7 @@ public class InputPlayer : MonoBehaviour
                         rayGetBlock = true;
                         refFirstBlock = hit.collider.transform;
 
+                        if (hit.transform.tag == midPiece) hit = HitCorrection(hit);
 
                         switch (refFirstBlock.transform.position)
                         {
@@ -73,7 +74,6 @@ public class InputPlayer : MonoBehaviour
 
                         }
                         hitAux= hit.point;
-                        if(hit.transform.tag == midPiece) HitCorrection(hit);
                         selectedDirection = false;
                     }
                     break;
@@ -222,14 +222,14 @@ public class InputPlayer : MonoBehaviour
         OnCubeEndAutorotate?.Invoke();
     }
 
-    void HitCorrection(RaycastHit hit)
+    RaycastHit HitCorrection(RaycastHit hit)
     {
         // Just in case, also make sure the collider also has a renderer
         // material and texture
         MeshCollider meshCollider = hit.collider as MeshCollider;
         if (meshCollider == null || meshCollider.sharedMesh == null)
         {
-            return;
+            return hit;
         }
         //Debug.Log("A");
         Mesh mesh = meshCollider.sharedMesh;
@@ -254,5 +254,22 @@ public class InputPlayer : MonoBehaviour
 
         // Display with Debug.DrawLine
         Debug.DrawRay(hit.point, interpolatedNormal);
+        Vector3 ray =  hit.point;
+        RaycastHit hit2;
+        if (Physics.Raycast(ray, interpolatedNormal, out hit2, 10.0f, layerMask))
+        {
+            refFirstBlock = hit2.collider.transform;
+            Vector3 ray2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            
+            RaycastHit hit3;
+            if (Physics.Raycast(ray2, ((hit2.point - ((hit2.point - refFirstBlock.position).normalized * 0.15f)) - ray2).normalized, out hit3,50.0f,layerMask))
+            {
+                Debug.DrawRay(ray2, ((hit2.point - ((hit2.point - refFirstBlock.position).normalized * 0.15f)) - ray2).normalized * 50.0f, Color.cyan);
+
+                return hit3;
+            }
+
+        }
+        return hit; 
     }
 }

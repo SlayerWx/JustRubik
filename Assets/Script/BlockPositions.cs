@@ -43,21 +43,25 @@ public class BlockPositions : MonoBehaviour
             }
             foreach (Node n in nodes)
             {
-                if (type == RotationType.leftright)
+                if (n)
                 {
-                    if (facetype != Vector3.up)
+                    if (facetype == Vector3.forward)
                     {
-                        if (n)
+                        if (type == RotationType.leftright)
                         {
                             if (n.ID.y == ID.y)
                             {
                                 n.piece.parent = pivot;
                             }
                         }
-                    }
-                    if (facetype == Vector3.up)
-                    {
-                        if (n)
+                        if (type == RotationType.updown)
+                        {
+                            if (n.ID.x == ID.x)
+                            {
+                                n.piece.parent = pivot;
+                            }
+                        }
+                        if (type == RotationType.rotleftright)
                         {
                             if (n.ID.z == ID.z)
                             {
@@ -65,12 +69,24 @@ public class BlockPositions : MonoBehaviour
                             }
                         }
                     }
-                }
-                if (type == RotationType.updown)
-                {
-                    if (facetype != Vector3.right)
+                    if (facetype == Vector3.right)
                     {
-                        if (n)
+                        if (type == RotationType.leftright)
+                        {
+                            if (n.ID.y == ID.y)
+                            {
+                                n.piece.parent = pivot;
+                            }
+                        }
+                        if (type == RotationType.updown)
+                        {
+
+                            if (n.ID.z == ID.z)
+                            {
+                                n.piece.parent = pivot;
+                            }
+                        }
+                        if (type == RotationType.rotleftright)
                         {
                             if (n.ID.x == ID.x)
                             {
@@ -78,9 +94,23 @@ public class BlockPositions : MonoBehaviour
                             }
                         }
                     }
-                    if (facetype == Vector3.right)
+                    if (facetype == Vector3.up)
                     {
-                        if (n)
+                        if (type == RotationType.leftright)
+                        {
+                            if (n.ID.z == ID.z)
+                            {
+                                n.piece.parent = pivot;
+                            }
+                        }
+                        if (type == RotationType.updown)
+                        {
+                            if (n.ID.x == ID.x)
+                            {
+                                n.piece.parent = pivot;
+                            }
+                        }
+                        if (type == RotationType.rotleftright)
                         {
                             if (n.ID.z == ID.z)
                             {
@@ -90,69 +120,6 @@ public class BlockPositions : MonoBehaviour
                     }
                 }
             }
-
-
-            /*foreach (PieceInfo piece in nodes)
-            {
-                if (piece)
-                {
-                    switch (type)
-                    {
-                        case RotationType.leftright:
-                            switch (facetype)
-                            {
-                                case Vector3 _ when Vector3.forward == facetype:
-                                    if (piece.transform.localPosition.y == firstPiece.transform.localPosition.y)
-                                    {
-                                        piece.transform.parent = pivot;
-                                    }
-                                    break;
-                                case Vector3 _ when Vector3.right == facetype:
-                                    if (piece.transform.localPosition.y == firstPiece.transform.localPosition.y)
-                                    {
-                                        piece.transform.parent = pivot;
-                                    }
-                                    break;
-                                case Vector3 _ when Vector3.up == facetype:
-                                    if (piece.transform.localPosition.z == firstPiece.transform.localPosition.z)
-                                    {
-                                        piece.transform.parent = pivot;
-                                    }
-                                    break;
-                            }
-                            break;
-                        case RotationType.updown:
-                            switch (facetype)
-                            {
-                                case Vector3 _ when Vector3.forward == facetype:
-                                    if (piece.transform.localPosition.x == firstPiece.transform.localPosition.x)
-                                    {
-                                        piece.transform.parent = pivot;
-                                    }
-                                    break;
-                                case Vector3 _ when Vector3.right == facetype:
-                                    if (piece.transform.localPosition.z == firstPiece.transform.localPosition.z)
-                                    {
-                                        piece.transform.parent = pivot;
-                                    }
-                                    break;
-                                case Vector3 _ when Vector3.up == facetype:
-                                    if (piece.transform.localPosition.x == firstPiece.transform.localPosition.x)
-                                    {
-                                        piece.transform.parent = pivot;
-                                    }
-                                    break;
-                            }
-                            break;
-                        case RotationType.rotleftright:
-                            if (piece.transform.localPosition.z == firstPiece.transform.localPosition.z)
-                            {
-                                piece.transform.parent = pivot;
-                            }
-                            break;
-                    }
-                }
-            }*/
         }
         researched = true;
     }

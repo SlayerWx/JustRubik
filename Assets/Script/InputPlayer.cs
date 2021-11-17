@@ -5,10 +5,10 @@ using UnityEngine.EventSystems;
 using System;
 public class InputPlayer : MonoBehaviour
 {
+    public GameObject test;
     public Transform pivot;
     Vector2[] touches = new Vector2[5];
-    int layerMask = 1 << 8; 
-    public Vector2 startPos;
+    int layerMask = 1 << 9; 
     public Vector3 direction;
     public float speed;
     bool selectedDirection = false;
@@ -25,8 +25,8 @@ public class InputPlayer : MonoBehaviour
     bool fixedRotation = false;
     bool fixing = false;
     Vector3 hitAux;
-    string midPiece = "MidPiece";
     public static Action OnCubeEndAutorotate;
+    bool HitCorrectionCheck = false;
     private void Start()
     {
         rayGetBlock = false;
@@ -49,24 +49,24 @@ public class InputPlayer : MonoBehaviour
                     if (Physics.Raycast(ray, out hit, 100.0f, layerMask) && hit.collider.gameObject != null)
                     {
                         rayGetBlock = true;
-                        refFirstBlock = hit.collider.transform;
+                        refFirstBlock = hit.collider.transform.parent;
 
-                        if (hit.transform.tag == midPiece) hit = HitCorrection(hit);
+                        //hit = HitCorrection(hit);
 
                         switch (refFirstBlock.transform.position)
                         {
                             case Vector3 _ when (Mathf.Abs(refFirstBlock.position.x) +
-                            Mathf.Abs(hit.collider.transform.lossyScale.x / 2))
+                            Mathf.Abs(hit.collider.transform.parent.lossyScale.x / 2))
                             <= Mathf.Abs(hit.point.x):
                                 direction = Vector3.right;
                                 break;
                             case Vector3 _ when Mathf.Abs(refFirstBlock.position.y) +
-                            Mathf.Abs((hit.collider.transform.lossyScale.y / 2))
+                            Mathf.Abs((hit.collider.transform.parent.lossyScale.y / 2))
                             <= Mathf.Abs(hit.point.y):
                                 direction = Vector3.up;
                                 break;
                             case Vector3 _ when Mathf.Abs(refFirstBlock.position.z) +
-                            Mathf.Abs((hit.collider.transform.lossyScale.z / 2))
+                            Mathf.Abs((hit.collider.transform.parent.lossyScale.z / 2))
                             <= Mathf.Abs(hit.point.z):
                                 direction = Vector3.forward;
                                 break;
@@ -80,19 +80,7 @@ public class InputPlayer : MonoBehaviour
                 case TouchPhase.Moved:
                     if (rayGetBlock)
                     {
-                        //touchDirection = Camera.main.ScreenToWorldPoint(touch.deltaPosition);
                         touchDirection = touch.deltaPosition;
-                        /*float zGyroscope = (float)(OnGyroscopeRotatationEuler?.Invoke().z);
-                        if ((Mathf.Abs(zGyroscope - 90) < Mathf.Abs(zGyroscope - 0)) &&
-                            (Mathf.Abs(zGyroscope - 90) < Mathf.Abs(zGyroscope - 359.9f) ||
-                            (Mathf.Abs(zGyroscope - 270) < Mathf.Abs(zGyroscope - 0)) &&
-                            (Mathf.Abs(zGyroscope - 270) < Mathf.Abs(zGyroscope - 359.9f))))
-                        {
-                            zGyroscope = touchDirection.x;
-                            touchDirection.x = touchDirection.y;
-                            touchDirection.y = zGyroscope;
-                        }*/
-
                         if (Mathf.Abs(touchDirection.x) > decideAxisBuffer && !selectedDirection)
                         {
                             axisSelected = BlockPositions.RotationType.leftright;
@@ -173,10 +161,10 @@ public class InputPlayer : MonoBehaviour
                             }
                             #endregion
 
+                            BlockPositions.SetInPivot(refFirstBlock, pivot, axisSelected, direction);
+                            refFirstBlock.transform.parent = pivot;
+                            pivot.Rotate(rotation, Space.Self);
                         }
-                        BlockPositions.SetInPivot(refFirstBlock, pivot, axisSelected,direction);
-                        refFirstBlock.transform.parent = pivot;
-                        pivot.Rotate(rotation, Space.Self);
 
                     }
                     
@@ -222,7 +210,7 @@ public class InputPlayer : MonoBehaviour
         OnCubeEndAutorotate?.Invoke();
     }
 
-    RaycastHit HitCorrection(RaycastHit hit)
+    /*RaycastHit HitCorrection(RaycastHit hit)
     {
         // Just in case, also make sure the collider also has a renderer
         // material and texture
@@ -260,16 +248,17 @@ public class InputPlayer : MonoBehaviour
         {
             refFirstBlock = hit2.collider.transform;
             Vector3 ray2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-            
+            Debug.Log("hit2");
             RaycastHit hit3;
             if (Physics.Raycast(ray2, ((hit2.point - ((hit2.point - refFirstBlock.position).normalized * 0.15f)) - ray2).normalized, out hit3,50.0f,layerMask))
             {
                 Debug.DrawRay(ray2, ((hit2.point - ((hit2.point - refFirstBlock.position).normalized * 0.15f)) - ray2).normalized * 50.0f, Color.cyan);
-
+                Debug.Log("hit3");
+                HitCorrectionCheck = true;
                 return hit3;
             }
 
         }
         return hit; 
-    }
+    }*/
 }

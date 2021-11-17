@@ -567,7 +567,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 194356590}
-  - component: {fileID: 194356589}
   m_Layer: 0
   m_Name: Overlap
   m_TagString: Untagged
@@ -575,21 +574,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &194356589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194356588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac7942723a1036144af33f855978c522, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!4 &194356590
 Transform:
   m_ObjectHideFlags: 0
@@ -1633,8 +1617,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81b9c666fe108f4386cd5465c7c8ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  test: {fileID: 1342969182576258637, guid: 6a0854c30ab87a64ca1328e49bd1e579, type: 3}
   pivot: {fileID: 510223614}
-  startPos: {x: 0, y: 0}
   direction: {x: 0, y: 0, z: 0}
   speed: 100
   axisSelected: 0
@@ -2293,6 +2277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11759a02ec2ae6c40b74f641b892847a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothnessFollow: 0.125
 --- !u!1001 &1065732903
 PrefabInstance:
   m_ObjectHideFlags: 0

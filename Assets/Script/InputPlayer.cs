@@ -13,20 +13,26 @@ public class InputPlayer : MonoBehaviour
     public float speed;
     bool selectedDirection = false;
     bool rayGetBlock = false;
-    Vector2 touchDirection;
+    Vector3 touchDirection;
     Vector3 rotation;
     Transform refFirstBlock;
     public BlockPositions.RotationType axisSelected;
-    const float decideAxisBuffer = 4.4f;
-    const float sensitivity = 0.4f;
+    //const float decideAxisBuffer = 4.4f;
+    const float decideAxisBufferY = 0.04f;
+    const float decideAxisBufferX = 0.07f;
+    const float deltaCompensation = 5.5f; 
+    const float sensitivity = 7f;
     public delegate Vector3 CallGetGyroscopeRotation();
     public static event CallGetGyroscopeRotation OnGyroscopeRotatationEuler;
     bool canInput = true;
     bool fixedRotation = false;
     bool fixing = false;
     Vector3 hitAux;
+    float deltaSensitivity = 5;
     public static Action OnCubeEndAutorotate;
     bool HitCorrectionCheck = false;
+    Vector3 deltaPositionFirst;
+    Vector3 deltaPositionSecond;
     private void Start()
     {
         rayGetBlock = false;
@@ -43,6 +49,12 @@ public class InputPlayer : MonoBehaviour
             RaycastHit hit;
             Touch touch = Input.GetTouch(0);
             Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            //Vector3 auxi;
+            //auxi.x = touch.position.x;
+            //auxi.y = touch.position.y;
+            //auxi.z = Camera.main.nearClipPlane + deltaSensitivity;
+            //Instantiate(test, Camera.main.ScreenToWorldPoint(auxi), Quaternion.identity, null);
+            //Debug.Log(Camera.main.ScreenToWorldPoint(auxi));
             switch (touch.phase)
             {
                 case TouchPhase.Began:
@@ -75,18 +87,28 @@ public class InputPlayer : MonoBehaviour
                         }
                         hitAux= hit.point;
                         selectedDirection = false;
+                        deltaPositionFirst = touch.position;
+                        deltaPositionFirst.z = Camera.main.nearClipPlane + deltaSensitivity;
+                        deltaPositionSecond = Vector3.zero;
                     }
                     break;
                 case TouchPhase.Moved:
                     if (rayGetBlock)
                     {
-                        touchDirection = touch.deltaPosition;
-                        if (Mathf.Abs(touchDirection.x) > decideAxisBuffer && !selectedDirection)
+                        if (deltaPositionSecond != Vector3.zero)
+                        {
+                            deltaPositionFirst = deltaPositionSecond;
+                        }
+                        deltaPositionSecond = touch.position;
+                        deltaPositionSecond.z = Camera.main.nearClipPlane + deltaSensitivity;
+                        touchDirection = (Camera.main.ScreenToWorldPoint(deltaPositionFirst) * deltaCompensation -
+                        Camera.main.ScreenToWorldPoint(deltaPositionSecond) * deltaCompensation) * -1;
+                        if (Mathf.Abs(touchDirection.x) > decideAxisBufferX && !selectedDirection)
                         {
                             axisSelected = BlockPositions.RotationType.leftright;
                             selectedDirection = true;
                         }
-                        if (Mathf.Abs(touchDirection.y) > decideAxisBuffer && !selectedDirection)
+                        if (Mathf.Abs(touchDirection.y) > decideAxisBufferY && !selectedDirection)
                         {
                             axisSelected = BlockPositions.RotationType.updown;
                             selectedDirection = true;
@@ -96,16 +118,23 @@ public class InputPlayer : MonoBehaviour
                             #region Axisfoward
                             if (direction == Vector3.forward && axisSelected == BlockPositions.RotationType.leftright)
                             {
-                                rotation.y -= touchDirection.x * sensitivity;
+                                if (hitAux.z <= 0.0f)
+                                {
+                                    rotation.y -= ((touchDirection.x + touchDirection.z) / 2) * sensitivity;
+                                }
+                                else
+                                {
+                                    rotation.y += ((touchDirection.x + touchDirection.z) / 2) * sensitivity;
+                                }
                             }
                             if (direction == Vector3.forward && axisSelected == BlockPositions.RotationType.updown)
                             {
                                 if (hitAux.z <= 0.0f)
                                 {
-                                    rotation.x += touchDirection.y * sensitivity;
+                                    rotation.x += ((touchDirection.y + touchDirection.z)/2) * sensitivity;
                                 }else
                                 {
-                                    rotation.x -= touchDirection.y * sensitivity;
+                                    rotation.x -= ((touchDirection.y + touchDirection.z) / 2) * sensitivity;
                                 }
                               
                             }
@@ -118,7 +147,14 @@ public class InputPlayer : MonoBehaviour
                             #region AxisRight
                             if (direction == Vector3.right && axisSelected == BlockPositions.RotationType.leftright)
                             {
-                                rotation.y -= touchDirection.x * sensitivity;
+                                if (hitAux.x < 0.0f)
+                                {
+                                    rotation.y += ((touchDirection.x + touchDirection.z) / 2) * sensitivity;
+                                }
+                                else
+                                {
+                                    rotation.y -= ((touchDirection.x + touchDirection.z) / 2) * sensitivity;
+                                }
                             }
                             if (direction == Vector3.right && axisSelected == BlockPositions.RotationType.updown)
                             {
@@ -142,17 +178,17 @@ public class InputPlayer : MonoBehaviour
                             {
                                 if (hitAux.y < 0.0f)
                                 {
-                                    rotation.z += touchDirection.x * sensitivity;
+                                    rotation.z += ((touchDirection.x + touchDirection.z) / 2) * sensitivity;
                                 }
                                 else
                                 {
-                                    rotation.z -= touchDirection.x * sensitivity;
+                                    rotation.z -= ((touchDirection.x + touchDirection.z) / 2) * sensitivity;
                                 }
 
                             }
                             if (direction == Vector3.up && axisSelected == BlockPositions.RotationType.updown)
                             {
-                                rotation.x += touchDirection.y * sensitivity;
+                                rotation.x += ((touchDirection.y + touchDirection.z) / 2) * sensitivity;
                             }
                             if (direction == Vector3.up && axisSelected == BlockPositions.RotationType.rotleftright)
                             {

@@ -30,9 +30,9 @@ public class RotateGyroscope : MonoBehaviour
     }
     void FixedUpdate()
     {
-//#if !UNITY_EDITOR
+#if !UNITY_EDITOR
         GyroModifyCamera();
-//#endif
+#endif
     }
     void GyroModifyCamera()
     {
